@@ -11,6 +11,8 @@
 |
 */
 
+use App\Helpers\Helper;
+
 Route::get('/', function () {
     return view('index');
 });
@@ -18,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('ads', 'AdsController');
+
+Route::get('myAds', 'AdsController@getUserAds');

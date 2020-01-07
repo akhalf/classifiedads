@@ -15,14 +15,11 @@
                 </li>
             @else
                 <li class="nav-item nav-link">
-                    <a class="btn icon-btn btn-light" href="/ads/create">
-                        <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
-                        أضف إعلان جديد
-                    </a>
+                    <a class="btn icon-btn btn-light" href="{{ route('ads.create') }}">أضف إعلان جديد</a>
                 </li>
                 <li class="nav-item nav-link dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{-- Auth::user()->name --}} <span class="caret"></span>
+                        {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="navbarDropdown">

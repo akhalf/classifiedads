@@ -14,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('App\Http\ViewComposers\CategoryComposer');
+        $this->app->singleton('App\Http\ViewComposers\CountryComposer');
     }
 
     /**
@@ -26,6 +27,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+
+        view()->composer(
+            ['partials.categoryNav', 'lists.categories'], 'App\Http\ViewComposers\CategoryComposer'
+        );
+
+        view()->composer('lists.countries', 'App\Http\ViewComposers\CountryComposer');
+        view()->composer('lists.currencies', 'App\Http\ViewComposers\CurrencyComposer');
 
     }
 }
