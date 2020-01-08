@@ -34,3 +34,7 @@ Route::post('ad/{id}/favorite', 'favoriteController@store');
 Route::post('ad/{id}/unfavorite', 'favoriteController@destroy');
 
 Route::get('myFav', 'favoriteController@index');
+
+Route::resource('comment', 'CommentController')->only('store');
+
+Route::post('comment/replay', 'CommentController@replay')->name('comment.replay');

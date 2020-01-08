@@ -45,7 +45,9 @@ class AdRepository implements AdInterface
 
     public function getDetails($id)
     {
-        return $this->ads::find($id);
+        return $this->ads::with(['comments' => function($query){
+           $query->with(['user:id,name']);
+        }])->find($id);
     }
 
     public function getById($id)

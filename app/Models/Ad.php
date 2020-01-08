@@ -54,4 +54,9 @@ class Ad extends Model
 
         return $query->with('images')->get();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->whereParent_id(null);
+    }
 }
