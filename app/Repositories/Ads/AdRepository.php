@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Ads;
 
+use App\Models\Favorite;
 use App\Models\User;
 use App\Traits\ImageUploadTrait;
 use App\Models\Ad;
@@ -93,6 +94,18 @@ class AdRepository implements AdInterface
 
     public function detCommonAds()
     {
-        // TODO: Implement detCommonAds() method.
+        return $this->ads::with('images')
+            ->select('id', 'title', 'slug', 'price')
+            ->whereIn(
+                'id',
+                Favorite::select('ad_id')
+                    ->groupBy('ad_id')
+                    ->orderByRaw('COUNT(*) DESC')
+                    ->limit(8)
+                    ->get()
+            )
+            ->get();
+
+
     }
 }

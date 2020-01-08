@@ -5,6 +5,7 @@
     <h2 class="mb-4">{{ $ad->title }}</h2>
 <div class="row">
     <div class="col-lg-4 col-md-6 col-xs-11">
+        <button id="favbtn" data-id="{{$ad->id}}" class="btn btn-sm btn-outline-primary was-validated {{ $is_favorite ? 'unfav' : 'fav' }}">{{ $is_favorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة' }}</button>
         @include('partials.share_buttons')
         <div id="carouselIndicators" class="carousel slide">
             <!-- Inner -->
@@ -38,4 +39,51 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#favbtn').on('click', function () {
+                var ad_id = $(this).data('id');
+                // ad = $(this);
+                var url='/ad/'+ad_id+'/favorite';
+
+                if ($(this).hasClass('fav')){
+                    url='/ad/'+ad_id+'/favorite';
+                    btnclass = 'unfav';
+                    text = 'إزالة من المفضلة';
+                }
+                else {
+                    url='/ad/'+ad_id+'/unfavorite';
+                    btnclass = 'fav';
+                    text = 'إضافة للمفضلة';
+                }
+
+                $.ajax({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url:url,
+                    type:'post',
+                    data:{
+                        'ad_id':ad_id
+                    },
+                    success: function (response) {
+                        $('#favbtn')
+                            .removeClass('fav')
+                            .removeClass('unfav')
+                            .addClass(btnclass)
+                            .html(text)
+
+                    }
+                });
+            });
+        });
+    </script>
+
+
 @endsection

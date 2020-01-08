@@ -40,4 +40,9 @@ class User extends Authenticatable
     public function ads(){
         return $this->hasMany(Ad::class);
     }
+
+    public function favAds()
+    {
+        return $this->belongsToMany(Ad::class, 'favorites')->withTimestamps();
+    }
 }

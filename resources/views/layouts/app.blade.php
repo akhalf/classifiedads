@@ -42,5 +42,7 @@
     <footer class="mt-5">
         @include('partials.footer')
     </footer>
+
+    @yield('scripts')
 </body>
 </html>

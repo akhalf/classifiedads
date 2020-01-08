@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Ads\AdInterface;
 use Illuminate\Http\Request;
+use App\Repositories\{
+    Ads\AdInterface,
+    Favorites\FavoriteInterface,
+};
+use Illuminate\Support\Facades\Auth;
 
 class AdsController extends Controller
 {
-    protected $ads;
+    protected $ads, $favorite;
 
-    public function __construct(AdInterface $ad)
+    public function __construct(AdInterface $ad, FavoriteInterface $favorite)
     {
         $this->ads = $ad;
+        $this->favorite = $favorite;
     }
 
     public function all()
@@ -69,7 +74,10 @@ class AdsController extends Controller
     {
         $ad = $this->ads->getDetails($id);
 
-        return view('ads.show', compact('ad'));
+        if (Auth::check())
+            $is_favorite = $this->favorite->show($id);
+
+        return view('ads.show', compact(['ad', 'is_favorite']));
     }
 
     public function search(Request $request)
@@ -77,6 +85,13 @@ class AdsController extends Controller
         $ads = $this->ads->search($request);
 
         return view('ads.adsByCategory', compact('ads'));
+    }
+
+    public function getCommonAds()
+    {
+        $ads = $this->ads->detCommonAds();
+
+        return view('index', compact('ads'));
     }
 
 }

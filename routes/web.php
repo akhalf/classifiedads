@@ -13,9 +13,7 @@
 
 use App\Helpers\Helper;
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'AdsController@getCommonAds');
 
 Auth::routes();
 
@@ -30,3 +28,9 @@ Route::get('{id}/{slug}', 'AdsController@getByCategory');
 Route::get('ads/{id}/{slug}', 'AdsController@show');
 
 Route::post('search', 'AdsController@search');
+
+Route::post('ad/{id}/favorite', 'favoriteController@store');
+
+Route::post('ad/{id}/unfavorite', 'favoriteController@destroy');
+
+Route::get('myFav', 'favoriteController@index');
