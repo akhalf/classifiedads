@@ -29,11 +29,11 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         view()->composer(
-            ['partials.categoryNav', 'lists.categories'], 'App\Http\ViewComposers\CategoryComposer'
+            ['partials.categoryNav', 'lists.categories', 'ads.edit'], 'App\Http\ViewComposers\CategoryComposer'
         );
 
-        view()->composer('lists.countries', 'App\Http\ViewComposers\CountryComposer');
-        view()->composer('lists.currencies', 'App\Http\ViewComposers\CurrencyComposer');
+        view()->composer(['lists.countries', 'ads.edit'], 'App\Http\ViewComposers\CountryComposer');
+        view()->composer(['lists.currencies', 'ads.edit'], 'App\Http\ViewComposers\CurrencyComposer');
 
     }
 }

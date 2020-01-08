@@ -14,7 +14,7 @@ class Helper
         $string = trim($string);
 
         // Make alphanumeric (removes all other characters) && keeps latin characters and arabic charactrs
-        $string = preg_replace("/[^a-z0-9_\s\-۰۱۲۳۴۵۶۷۸۹يءاأإآؤئبپتثجچحخدذرزژسشصضطظعغفقکكگگلمنوهی]/u", '', $string);
+        $string = preg_replace("/[^a-z0-9_\s\-۰۱۲۳۴۵۶۷۸۹يءاأإآؤئبپتثجچحخدذرزژسشصضطظعغفقکكگگلمنوهیة]/u", '', $string);
 
         // Remove multiple dashes or whitespaces
         $string = preg_replace("/[\s\-_]+/", ' ', $string);

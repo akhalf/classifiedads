@@ -51,5 +51,25 @@ class AdsController extends Controller
         return view('ads.user_ads', compact('ads'));
     }
 
+    public function getByCategory($id)
+    {
+        $ads = $this->ads->getByCategory($id);
+
+        return view('ads.adsByCategory', compact('ads'));
+    }
+
+    public function destroy($id)
+    {
+        $this->ads->delete($id);
+
+        return back()->with('success', 'تم حذف الإعلان');
+    }
+
+    public function show($id, $ss)
+    {
+        $ad = $this->ads->getDetails($id);
+
+        return view('ads.show', compact('ad'));
+    }
 
 }

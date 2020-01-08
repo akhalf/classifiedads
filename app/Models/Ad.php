@@ -19,8 +19,28 @@ class Ad extends Model
         $this->attributes['slug'] = $unique_lug;
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
     }
 }

@@ -6,27 +6,32 @@
 
         @include('alerts.success')
 
-        <form method="POST" action="{{ route('ads.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('ads.update', $ad->id) }}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label for="country_id">الدولة</label>
                 <select id="country_id" class="form-control" name="country_id">
-                    @include('lists.countries')
+                    @foreach($countries as $country)
+                        <option value="{{ $country->id }}" {{ $ad->country_id == $country->id ? 'selected':''  }}>{{ $country->name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <label for="category_id">التصنيف</label>
                 <select id="category_id" class="form-control" name="category_id">
-                    @include('lists.categories')
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $ad->category_id == $category->id ? 'selected':''  }}>{{ $category->category_name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <label for="title">العنوان</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
+                <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $ad->title) }}">
             </div>
             <div class="form-group">
                 <label for="details">التفاصيل</label>
-                <textarea class="form-control" type="text" id="details" name="details" rows="3">{{ old('details') }}</textarea>
+                <textarea class="form-control" type="text" id="details" name="details" rows="3">{{ old('details', $ad->details) }}</textarea>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -37,7 +42,9 @@
                     <div class="col-lg-5">
                         <label for="currency">العملة</label>
                         <select class="form-control" id="currency" name="currency_id">
-                            @include('lists.currencies')
+                            @foreach($currencies as $currency)
+                                <option value="{{ $currency->id }}" {{ $ad->currency_id == $currency->id ? 'selected':''  }}>{{ $currency->symbol }}</option>
+                            @endforeach
                         </select>
 
                     </div>

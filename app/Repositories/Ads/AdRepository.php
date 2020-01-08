@@ -44,7 +44,7 @@ class AdRepository implements AdInterface
 
     public function getDetails($id)
     {
-        // TODO: Implement getDetails() method.
+        return $this->ads::find($id);
     }
 
     public function getById($id)
@@ -55,7 +55,7 @@ class AdRepository implements AdInterface
 
     public function update($request, $id)
     {
-        // TODO: Implement update() method.
+        return $this->ads->find($id)->update($request->all());
     }
 
     public function getByUser()
@@ -78,12 +78,12 @@ class AdRepository implements AdInterface
 
     public function getByCategory($catId)
     {
-        // TODO: Implement getByCategory() method.
+        return $this->ads::with('images')->whereCategory_id($catId)->get();
     }
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        return $this->ads->findOrFail($id)->delete();
     }
 
     public function search($request)
