@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Ad extends Model
 {
@@ -42,5 +44,14 @@ class Ad extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function scopeFilter($query, Request $request)
+    {
+        if ($request->country)$query->whereCountry_id($request->country);
+        if ($request->category)$query->whereCategory_id($request->category);
+        if ($request->keyword)$query->where('title', 'LIKE', '%'. $request->keyword . '%');
+
+        return $query->with('images')->get();
     }
 }

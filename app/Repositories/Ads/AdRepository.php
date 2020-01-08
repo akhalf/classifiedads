@@ -88,7 +88,7 @@ class AdRepository implements AdInterface
 
     public function search($request)
     {
-        // TODO: Implement search() method.
+        return $this->ads->Filter($request);
     }
 
     public function detCommonAds()

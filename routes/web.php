@@ -29,3 +29,4 @@ Route::get('{id}/{slug}', 'AdsController@getByCategory');
 
 Route::get('ads/{id}/{slug}', 'AdsController@show');
 
+Route::post('search', 'AdsController@search');

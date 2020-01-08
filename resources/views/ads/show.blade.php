@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <h2 class="mb-4">{{ $ad->title }}</h2>
 <div class="row">
     <div class="col-lg-4 col-md-6 col-xs-11">
+        @include('partials.share_buttons')
         <div id="carouselIndicators" class="carousel slide">
             <!-- Inner -->
             <div class="carousel-inner">
