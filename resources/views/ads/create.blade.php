@@ -5,6 +5,9 @@
     <h2>ادخل تفاصيل الإعلان</h2>
 
     @include('alerts.success')
+    @include('alerts.error')
+
+
 
     <form method="POST" action="{{ route('ads.store') }}" enctype="multipart/form-data">
         @csrf

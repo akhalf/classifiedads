@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdRequest;
 use Illuminate\Http\Request;
 use App\Repositories\{
     Ads\AdInterface,
@@ -15,6 +16,7 @@ class AdsController extends Controller
 
     public function __construct(AdInterface $ad, FavoriteInterface $favorite)
     {
+        $this->middleware('auth',['only'=>['create', 'store', 'edit']]);
         $this->ads = $ad;
         $this->favorite = $favorite;
     }
@@ -29,7 +31,7 @@ class AdsController extends Controller
         return view('ads.create');
     }
 
-    public function store(Request $request)
+    public function store(AdRequest $request)
     {
         $this->ads->store($request);
 
@@ -40,7 +42,10 @@ class AdsController extends Controller
     {
         $ad = $this->ads->getById($id);
 
-        return view('ads.edit', compact('ad'));
+        if (\Gate::allows('edit-ad', $ad))
+            return view('ads.edit', compact('ad'));
+        else
+            abort(403);
     }
 
     public function update (Request $request, $id)
