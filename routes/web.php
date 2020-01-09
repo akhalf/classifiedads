@@ -38,3 +38,5 @@ Route::get('myFav', 'favoriteController@index');
 Route::resource('comment', 'CommentController')->only('store')->middleware('auth');
 
 Route::post('comment/replay', 'CommentController@replay')->name('comment.replay');
+
+Route::post('send/mail', 'SendMailController@sendMail')->name('send.mail');

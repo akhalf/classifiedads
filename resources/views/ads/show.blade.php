@@ -34,11 +34,46 @@
                     <p class="card-text">السعر: {{ $ad->price }}</p>
                     <h4>وصف الإعلان</h4>
                     <p class="card-text">{{ $ad->details }}</p>
-                    <p class="card-text"></p>
+                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#contactModel">تواصل مع المعلن</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- dialog -->
+    <div id="contactModel" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تواصل مع المعلن</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body p-3">
+                        <form id="send" method="POST" action="{{ route('send.mail') }}">
+                            @csrf
+                            <input type="hidden" value="{{ $ad->user->email }}" name="adv_email">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="name" placeholder="اسمك">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="email" name="email" placeholder="البريد الإلكتروني">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="massage" rows="5"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button id="sendEmail" class="btn btn-primary btn-block rounded-0 py-2">إرسال</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="replies" class="alert"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End dialog -->
 
     <div class="row form-group mt-5">
         <div class="col-lg-6 col-md-6 col-s-11">
@@ -85,6 +120,42 @@
 
     <script>
         $(document).ready(function () {
+
+            $('#sendEmail').on('click', function (event) {
+                event.preventDefault();
+
+                $.ajax({
+
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '{{ route("send.mail") }}',
+                    type: 'post',
+                    data: $('#send').serialize(),
+                    success: function ()
+                    {
+                        $('#replies')
+                            .removeClass('alert-danger')
+                            .addClass('alert-success')
+                            .text('تم إرسال البريد')
+                    },
+                    error: function (response)
+                    {
+                        var  jsonResponse = JSON.parse(response.responseText);
+                        $('#replies')
+                            .empty()
+                            .addClass('alert-danger')
+
+                        $.each(jsonResponse['errors'], function (key, value) {
+                            $('#replies').append('<li>'+ value +'</li>');
+                        })
+                    }
+
+
+                })
+
+            })
+
             $('#favbtn').on('click', function () {
                 var ad_id = $(this).data('id');
                 // ad = $(this);
